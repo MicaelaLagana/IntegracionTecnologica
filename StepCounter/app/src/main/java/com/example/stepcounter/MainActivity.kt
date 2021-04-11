@@ -13,13 +13,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import java.util.*
+import kotlin.math.sqrt
 import kotlin.system.measureTimeMillis
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
     private var sensorManager : SensorManager? = null
-    private lateinit var textview_data : TextView
-    private var steps = 0f
     private var walking = false
+    private var stepCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,12 +28,14 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
     }
 
+    //El delay controla el intervalo en el que los eventos del sensor se envían a la aplicación a través del método de devolución de llamada
+    //decidí usar el delay normal ya que no tengo una especificación o razón para generar un retrazo en el intervalo
     override fun onResume() {
         super.onResume()
         walking = true
-        val stepSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
+        val stepSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
         stepSensor?.let { step ->
-            sensorManager?.registerListener(this, step, SensorManager.SENSOR_DELAY_NORMAL)
+            sensorManager?.registerListener(this, step, SensorManager.SENSOR_DELAY_UI)
             Toast.makeText(this, "Se encontraron y registraron los sensores", Toast.LENGTH_SHORT).show()
         }
     }
@@ -47,14 +49,32 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
     override fun onSensorChanged(event: SensorEvent?) {
         Toast.makeText(this, "Entro al sensor Changed", Toast.LENGTH_SHORT).show()
+        event?.let {
         val notWalkingMessage = "not walking"
         if (walking){
-            steps = event!!.values[0]
-            var totalSteps = steps.toInt()
-            textview_data.text = "$totalSteps"
+
+            val x = event!!.values[0]
+            val y = event!!.values[1]
+            val z = event!!.values[2]
+
+            // Calculate the angular speed of the sample
+            var Magnitude = sqrt(x * x + y * y + z * z)
+
+            Toast.makeText(this, "Magnitude: $Magnitude", Toast.LENGTH_SHORT).show()
+
+            if (Magnitude > 13){
+                stepCount++
+            }
+            val textview_data: TextView = findViewById(R.id.textview_data)
+            textview_data.text = "${stepCount}"
+            //Acá tengo que ver la forma de que si los steps no avanzan, dispare el timer
+            /*if (){
+                setTimer()
+            }*/
         } else {
             setTimer()
             Toast.makeText(this, "$notWalkingMessage", Toast.LENGTH_SHORT).show()
+        }
         }
     }
 
