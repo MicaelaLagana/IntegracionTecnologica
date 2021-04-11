@@ -17,7 +17,7 @@ import kotlin.system.measureTimeMillis
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
     private var sensorManager : SensorManager? = null
-    lateinit var textview_data : TextView
+    private lateinit var textview_data : TextView
     private var steps = 0f
     private var walking = false
 
@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         super.onResume()
         walking = true
         val stepSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
-        stepSensor?.also { step ->
+        stepSensor?.let { step ->
             sensorManager?.registerListener(this, step, SensorManager.SENSOR_DELAY_NORMAL)
             Toast.makeText(this, "Se encontraron y registraron los sensores", Toast.LENGTH_SHORT).show()
         }
