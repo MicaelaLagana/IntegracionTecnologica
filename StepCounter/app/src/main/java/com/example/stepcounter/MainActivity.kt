@@ -19,7 +19,10 @@ import kotlin.system.measureTimeMillis
 class MainActivity : AppCompatActivity(), SensorEventListener {
     private var sensorManager : SensorManager? = null
     private var walking = false
+    private var isTimer = false
     private var stepCount = 0
+    private var total = 0f
+    var magnitudePrevious = 0f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +41,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             sensorManager?.registerListener(this, step, SensorManager.SENSOR_DELAY_UI)
             Toast.makeText(this, "Se encontraron y registraron los sensores", Toast.LENGTH_SHORT).show()
         }
+        setTimer()
     }
 
     override fun onPause(){
@@ -48,39 +52,38 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
-        Toast.makeText(this, "Entro al sensor Changed", Toast.LENGTH_SHORT).show()
         event?.let {
         val notWalkingMessage = "not walking"
-        if (walking){
+            if (walking){
+                val x = event!!.values[0]
+                val y = event!!.values[1]
+                val z = event!!.values[2]
 
-            val x = event!!.values[0]
-            val y = event!!.values[1]
-            val z = event!!.values[2]
+                // Calculate the speed of the sample
+                var magnitude = sqrt(x * x + y * y + z * z)
+                Toast.makeText(this, "Magnitude: $total", Toast.LENGTH_SHORT).show()
+                //Lo que hice acá es calcular que si una persona camina 5km/h
+                //Caminaría 1,38889 m/s, pero al tomar la velocidad de la magnitud del acelerómetro, lo que hice fue ir corriendo la coma
+                //dentro del valor (ya que al calcularlo con 1,3 al moverme contaba demasiados pasos)
+                if (magnitude > 13.8){
+                    stepCount++
+                }
+                val totalSteps = stepCount
+                val textview_data: TextView = findViewById(R.id.textview_data)
+                textview_data.text = "${stepCount}"
 
-            // Calculate the angular speed of the sample
-            var Magnitude = sqrt(x * x + y * y + z * z)
-
-            Toast.makeText(this, "Magnitude: $Magnitude", Toast.LENGTH_SHORT).show()
-
-            if (Magnitude > 13){
-                stepCount++
+                if (totalSteps <= stepCount && !isTimer){
+                    isTimer = true
+                    Toast.makeText(this, "Se seteó el timer", Toast.LENGTH_SHORT).show()
+                }
             }
-            val textview_data: TextView = findViewById(R.id.textview_data)
-            textview_data.text = "${stepCount}"
-            //Acá tengo que ver la forma de que si los steps no avanzan, dispare el timer
-            /*if (){
-                setTimer()
-            }*/
-        } else {
-            setTimer()
-            Toast.makeText(this, "$notWalkingMessage", Toast.LENGTH_SHORT).show()
-        }
         }
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
 
     private fun setTimer() {
+        isTimer = true
         var alertTitle = "Psst!"
         var alertMessage = "El tiempo de descanzo ha finalizado"
         val restMessage = "Se ha reestablecido el tiempo de descanso"
@@ -96,12 +99,11 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             override fun onTick(millisUntilFinished: Long) {}
             override fun onFinish() {
                 alertDialog.show()
+                isTimer = false
             }
         }
-        if (!walking && !alertDialog.isShowing){
+        if (isTimer){
             timer.start()
-            Toast.makeText(this, "Entro en el if del timer", Toast.LENGTH_SHORT).show()
         }
-        Toast.makeText(this, "No entró en el if del timer", Toast.LENGTH_SHORT).show()
     }
 }
