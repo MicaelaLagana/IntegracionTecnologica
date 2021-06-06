@@ -40,7 +40,6 @@ int sensorReadingTomBase = 0;
 void setup() {
   // put your setup code here, to run once:
 
-  
   //DFPLAYER
   mySoftwareSerial.begin(9600);
   Serial.begin(115200);
@@ -83,7 +82,7 @@ void loop() {
     delay(3);
     volPiezo = sensorReadingTom1/30;
     myDFPlayer.volume(volPiezo);
-    myDFPlayer.playFolder(1, 1);
+    myDFPlayer.playFolder(1, 14);
 
   }
 
@@ -96,7 +95,7 @@ void loop() {
     delay(3);
     volPiezo = sensorReadingTom2/30; 
     myDFPlayer.volume(volPiezo);
-    myDFPlayer.playFolder(1, 2);
+    myDFPlayer.playFolder(1, 20);
   }
 
 ////////////// Crash /////////////
@@ -108,7 +107,7 @@ void loop() {
     delay(3);
     volPiezo = sensorReadingCrash/30; 
     myDFPlayer.volume(volPiezo);
-    myDFPlayer.playFolder(1, 3);
+    myDFPlayer.playFolder(1, 6);
   }
 
 ////////////// Ride /////////////
@@ -120,7 +119,7 @@ void loop() {
     delay(3);
     volPiezo = sensorReadingRide/30; 
     myDFPlayer.volume(volPiezo);
-    myDFPlayer.playFolder(1, 4);
+    myDFPlayer.playFolder(1, 22);
   }
 
 ////////////// Bombo /////////////
@@ -132,7 +131,7 @@ void loop() {
     delay(3);
     volPiezo = sensorReadingBombo/30; 
     myDFPlayer.volume(volPiezo);
-    myDFPlayer.playFolder(1, 5);
+    myDFPlayer.playFolder(1, 9);
   }
 
 ////////////// HitHat /////////////
@@ -144,7 +143,7 @@ void loop() {
     delay(3);
     volPiezo = sensorReadingHitHat/30; 
     myDFPlayer.volume(volPiezo);
-    myDFPlayer.playFolder(1, 6);
+    myDFPlayer.playFolder(1, 5);
   }
 ////////////// Caja /////////////
 
@@ -155,7 +154,7 @@ void loop() {
     delay(3);
     volPiezo = sensorReadingCaja/30; 
     myDFPlayer.volume(volPiezo);
-    myDFPlayer.playFolder(1, 7);
+    myDFPlayer.playFolder(1, 4);
   }
   
 ////////////// TomBase /////////////
@@ -167,7 +166,7 @@ void loop() {
     delay(3);
     volPiezo = sensorReadingTomBase/30; 
     myDFPlayer.volume(volPiezo);
-    myDFPlayer.playFolder(1, 8);
+    myDFPlayer.playFolder(1, 3);
   }
 }
 /* Aca contemplamos y notificamos las detecciones y estados del modulo DFPlayer
