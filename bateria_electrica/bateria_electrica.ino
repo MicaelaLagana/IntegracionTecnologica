@@ -82,7 +82,7 @@ void loop() {
     delay(3);
     volPiezo = sensorReadingTom1/30;
     myDFPlayer.volume(volPiezo);
-    myDFPlayer.playFolder(1, 14);
+    myDFPlayer.playFolder(1, 1);
 
   }
 
@@ -95,7 +95,7 @@ void loop() {
     delay(3);
     volPiezo = sensorReadingTom2/30; 
     myDFPlayer.volume(volPiezo);
-    myDFPlayer.playFolder(1, 20);
+    myDFPlayer.playFolder(1, 2);
   }
 
 ////////////// Crash /////////////
@@ -107,7 +107,7 @@ void loop() {
     delay(3);
     volPiezo = sensorReadingCrash/30; 
     myDFPlayer.volume(volPiezo);
-    myDFPlayer.playFolder(1, 6);
+    myDFPlayer.playFolder(1, 3);
   }
 
 ////////////// Ride /////////////
@@ -119,7 +119,7 @@ void loop() {
     delay(3);
     volPiezo = sensorReadingRide/30; 
     myDFPlayer.volume(volPiezo);
-    myDFPlayer.playFolder(1, 22);
+    myDFPlayer.playFolder(1, 4);
   }
 
 ////////////// Bombo /////////////
@@ -131,7 +131,7 @@ void loop() {
     delay(3);
     volPiezo = sensorReadingBombo/30; 
     myDFPlayer.volume(volPiezo);
-    myDFPlayer.playFolder(1, 9);
+    myDFPlayer.playFolder(1, 5);
   }
 
 ////////////// HitHat /////////////
@@ -143,7 +143,7 @@ void loop() {
     delay(3);
     volPiezo = sensorReadingHitHat/30; 
     myDFPlayer.volume(volPiezo);
-    myDFPlayer.playFolder(1, 5);
+    myDFPlayer.playFolder(1, 6);
   }
 ////////////// Caja /////////////
 
@@ -154,7 +154,7 @@ void loop() {
     delay(3);
     volPiezo = sensorReadingCaja/30; 
     myDFPlayer.volume(volPiezo);
-    myDFPlayer.playFolder(1, 4);
+    myDFPlayer.playFolder(1, 7);
   }
   
 ////////////// TomBase /////////////
@@ -166,7 +166,7 @@ void loop() {
     delay(3);
     volPiezo = sensorReadingTomBase/30; 
     myDFPlayer.volume(volPiezo);
-    myDFPlayer.playFolder(1, 3);
+    myDFPlayer.playFolder(1, 8);
   }
 }
 /* Aca contemplamos y notificamos las detecciones y estados del modulo DFPlayer
