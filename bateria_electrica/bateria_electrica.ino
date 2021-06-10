@@ -2,11 +2,11 @@
 #include "SoftwareSerial.h"
 #include "DFRobotDFPlayerMini.h"
 
-SoftwareSerial mySoftwareSerial(10, 11); // RX, TX
+SoftwareSerial mySoftwareSerial(10, 11); 
 DFRobotDFPlayerMini myDFPlayer;
 void printDetail(uint8_t type, int value);
 
-//Definimos los piezos que vamos a usar como sensores
+//Defino los piezo que voy a usar como sensores
 const int sensorTom1 = A0;
 const int sensorTom2 = A1;
 const int sensorCrash = A2;
@@ -26,7 +26,8 @@ int sensHitHat = 350;
 int sensCaja = 350;
 int sensTomBase = 350;
 
-int volPiezo = 10;  // Con este valor decidimos cuando el sonido se considera un knock o no
+int volPiezo = 0; 
+int volBase = 35;
 
 int sensorReadingTom1 = 0; 
 int sensorReadingTom2 = 0; 
@@ -40,6 +41,7 @@ int sensorReadingTomBase = 0;
 void setup() {
   // put your setup code here, to run once:
 
+  
   //DFPLAYER
   mySoftwareSerial.begin(9600);
   Serial.begin(115200);
@@ -79,10 +81,13 @@ void loop() {
     Serial.println("Tom 1");
     Serial.println(sensorReadingTom1);
     Serial.println("Volumen");
-    delay(3);
-    volPiezo = sensorReadingTom1/30;
+    delay(5);
+    volPiezo = sensorReadingTom1/volBase;
     myDFPlayer.volume(volPiezo);
+    Serial.println(volPiezo);
     myDFPlayer.playFolder(1, 1);
+    // Lo updateamos y le seteamos un volumen
+    //myDFPlayer.volume(30);
 
   }
 
@@ -92,8 +97,9 @@ void loop() {
     Serial.println("Tom 2");
     Serial.println(sensorReadingTom2);
     Serial.println("Volumen");
-    delay(3);
-    volPiezo = sensorReadingTom2/30; 
+    delay(5);
+    volPiezo = sensorReadingTom2/volBase; 
+    Serial.println(volPiezo);
     myDFPlayer.volume(volPiezo);
     myDFPlayer.playFolder(1, 2);
   }
@@ -104,8 +110,9 @@ void loop() {
     Serial.println("Crash");
     Serial.println(sensorReadingCrash);
     Serial.println("Volumen");
-    delay(3);
-    volPiezo = sensorReadingCrash/30; 
+    delay(5);
+    volPiezo = sensorReadingCrash/volBase; 
+    Serial.println(volPiezo);
     myDFPlayer.volume(volPiezo);
     myDFPlayer.playFolder(1, 3);
   }
@@ -116,8 +123,9 @@ void loop() {
     Serial.println("Ride");
     Serial.println(sensorReadingRide);
     Serial.println("Volumen");
-    delay(3);
-    volPiezo = sensorReadingRide/30; 
+    delay(5);
+    volPiezo = sensorReadingRide/volBase; 
+    Serial.println(volPiezo);
     myDFPlayer.volume(volPiezo);
     myDFPlayer.playFolder(1, 4);
   }
@@ -128,8 +136,9 @@ void loop() {
     Serial.println("Bombo");
     Serial.println(sensorReadingBombo);
     Serial.println("Volumen");
-    delay(3);
-    volPiezo = sensorReadingBombo/30; 
+    delay(5);
+    volPiezo = sensorReadingBombo/volBase; 
+    Serial.println(volPiezo);
     myDFPlayer.volume(volPiezo);
     myDFPlayer.playFolder(1, 5);
   }
@@ -140,8 +149,9 @@ void loop() {
     Serial.println("HitHat");
     Serial.println(sensorReadingHitHat);
     Serial.println("Volumen");
-    delay(3);
-    volPiezo = sensorReadingHitHat/30; 
+    delay(5);
+    volPiezo = sensorReadingHitHat/volBase; 
+    Serial.println(volPiezo);
     myDFPlayer.volume(volPiezo);
     myDFPlayer.playFolder(1, 6);
   }
@@ -151,8 +161,9 @@ void loop() {
     Serial.println("Caja");
     Serial.println(sensorReadingCaja);
     Serial.println("Volumen");
-    delay(3);
-    volPiezo = sensorReadingCaja/30; 
+    delay(5);
+    volPiezo = sensorReadingCaja/volBase; 
+    Serial.println(volPiezo);
     myDFPlayer.volume(volPiezo);
     myDFPlayer.playFolder(1, 7);
   }
@@ -163,16 +174,15 @@ void loop() {
     Serial.println("Tom Base");
     Serial.println(sensorReadingTomBase);
     Serial.println("Volumen");
-    delay(3);
-    volPiezo = sensorReadingTomBase/30; 
+    delay(5);
+    volPiezo = sensorReadingTomBase/volBase; 
+    Serial.println(volPiezo);
     myDFPlayer.volume(volPiezo);
     myDFPlayer.playFolder(1, 8);
   }
 }
 /* Aca contemplamos y notificamos las detecciones y estados del modulo DFPlayer
  *  En caso de que no encuentre la pista, haya algún error u otros
- *  No es algo crucial para la funcionalidad de la batería, pero nos sirve
- *  para ver logs y cómo puede estar fincionando la batería.
  */
 void printDetail(uint8_t type, int value){
   switch (type) {
